@@ -17,7 +17,7 @@ export const Item = styled.div<{ paused: boolean }>`
 export const Name = styled.div`
   overflow: hidden;
   text-overflow: ellipsis;
-  max-width: 70%;
+  max-width: 65%;
 
   @media (max-width: 560px) {
     max-width: 50%;

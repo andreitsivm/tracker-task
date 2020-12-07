@@ -23,6 +23,7 @@ const Tracker: React.FC<Props> = ({ name, timestamp, id, paused, time }) => {
 
   const tick = useCallback(() => {
     setTimer(timer + parseInt(moment().format("X")) - timestamp);
+    //eslint-disable-next-line react-hooks/exhaustive-deps
   }, [timestamp]);
 
   useEffect(() => {
