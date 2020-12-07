@@ -10,6 +10,7 @@ const Content = styled.div`
   @media (max-width: 560px) {
     min-width: 320px;
     width: 100%;
+    padding: 8px 16px;
   }
 `;
 

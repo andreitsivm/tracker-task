@@ -13,17 +13,16 @@ const Field = styled.div`
   border: 1px solid gray;
   border-radius: 40px;
   height: 40px;
-
+  width: 100%;
   display: flex;
   align-items: center;
   @media (max-width: 560px) {
-    min-width: 320px;
     width: 100%;
   }
 `;
 const Input = styled.input`
   background-color: #fff;
-  padding: 0 20px;
+  padding: 0 16px;
   flex: 1;
   outline: none;
   border: none;

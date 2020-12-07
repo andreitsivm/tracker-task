@@ -23,7 +23,6 @@ const Tracker: React.FC<Props> = ({ name, timestamp, id, paused, time }) => {
 
   const tick = useCallback(() => {
     setTimer(timer + parseInt(moment().format("X")) - timestamp);
-    //eslint-disable-next-line react-hooks/exhaustive-deps
   }, [timestamp]);
 
   useEffect(() => {
@@ -36,9 +35,11 @@ const Tracker: React.FC<Props> = ({ name, timestamp, id, paused, time }) => {
   }, [paused, tick]);
   const secInDay = 86400;
   const duration =
-    timer > secInDay
-      ? moment.duration(timer, "seconds").format("HH:mm:ss")
-      : moment.utc(timer, "seconds").format("HH:mm:ss");
+    timer < secInDay
+      ? moment
+          .utc(moment.duration(timer, "seconds").as("milliseconds"))
+          .format("HH:mm:ss")
+      : moment.duration(timer, "seconds").format("hh:mm:ss");
 
   return (
     <Item paused={paused}>
