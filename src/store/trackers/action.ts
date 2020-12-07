@@ -6,7 +6,6 @@ import {
   PAUSE_TRACKER,
   Tracker,
   SET_TRACKERS,
-  SET_TRACKER_TIME,
 } from "./types";
 
 export const createTracker = (
