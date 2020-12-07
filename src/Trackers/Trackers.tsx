@@ -1,49 +1,67 @@
-import React, { useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import React from "react";
+import { connect, ConnectedProps } from "react-redux";
 import { Empty, Content } from "./Trackers.elements";
 import { RootState } from "../store/root.reducer";
 import { setTrackers } from "../store/trackers/action";
 import Tracker from "./Tracker/Tracker";
 
-const storage = "trackers";
+const mapState = (state: RootState) => ({
+  trackers: state.track.trackers,
+});
 
-const Trackers = () => {
-  const dispatch = useDispatch();
-  const trackers = useSelector((state: RootState) => state.track.trackers);
+const mapDispatch = {
+  setTrackers,
+};
+const connector = connect(mapState, mapDispatch);
+export type PropsFromRedux = ConnectedProps<typeof connector>;
 
-  useEffect(() => {
-    const data = localStorage.getItem(storage);
+class Trackers extends React.Component<PropsFromRedux> {
+  constructor(props: PropsFromRedux) {
+    super(props);
+    this.componentCleanup = this.componentCleanup.bind(this);
+  }
+  componentCleanup() {
+    localStorage.removeItem("storage");
+    localStorage.setItem("storage", JSON.stringify([...this.props.trackers]));
+  }
+
+  componentDidMount() {
+    const data = localStorage.getItem("storage");
     if (data !== null) {
-      dispatch(setTrackers(JSON.parse(data)));
+      this.props.setTrackers(JSON.parse(data));
     }
-    localStorage.removeItem(storage);
-    return () => {
-      localStorage.setItem(storage, JSON.stringify([...trackers]));
-    };
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+    window.addEventListener("beforeunload", this.componentCleanup);
+  }
 
-  if (trackers.length === 0) {
+  componentWillUnmount() {
+    this.componentCleanup();
+    window.removeEventListener("beforeunload", this.componentCleanup);
+  }
+
+  render() {
+    const { trackers } = this.props;
+    if (trackers.length === 0) {
+      return (
+        <Empty>
+          <p>List is empty</p>
+        </Empty>
+      );
+    }
     return (
-      <Empty>
-        <p>List is empty</p>
-      </Empty>
+      <Content>
+        {trackers.map((tracker) => (
+          <Tracker
+            key={tracker.id}
+            paused={tracker.paused}
+            name={tracker.name}
+            time={tracker.time}
+            timestamp={tracker.timestamp}
+            id={tracker.id}
+          />
+        ))}
+      </Content>
     );
   }
-  return (
-    <Content>
-      {trackers.map((tracker) => (
-        <Tracker
-          key={tracker.id}
-          paused={tracker.paused}
-          name={tracker.name}
-          time={tracker.time}
-          timestamp={tracker.timestamp}
-          id={tracker.id}
-        />
-      ))}
-    </Content>
-  );
-};
+}
 
-export default Trackers;
+export default connector(Trackers);
