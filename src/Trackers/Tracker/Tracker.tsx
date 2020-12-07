@@ -1,5 +1,6 @@
 import React, { useCallback, useEffect, useState } from "react";
 import moment from "moment";
+import "moment-duration-format";
 
 import {
   MdHighlightOff as Delete,
@@ -22,6 +23,7 @@ const Tracker: React.FC<Props> = ({ name, timestamp, id, paused, time }) => {
 
   const tick = useCallback(() => {
     setTimer(timer + parseInt(moment().format("X")) - timestamp);
+    //eslint-disable-next-line react-hooks/exhaustive-deps
   }, [timestamp]);
 
   useEffect(() => {
@@ -32,12 +34,17 @@ const Tracker: React.FC<Props> = ({ name, timestamp, id, paused, time }) => {
       return () => clearInterval(spendTime);
     }
   }, [paused, tick]);
+  const secInDay = 86400;
+  const duration =
+    timer > secInDay
+      ? moment.duration(timer, "seconds").format("HH:mm:ss")
+      : moment.utc(timer, "seconds").format("HH:mm:ss");
 
   return (
-    <Item>
+    <Item paused={paused}>
       <Name>{name}</Name>
       <Control>
-        {timer}
+        {duration}
         {paused ? (
           <Play
             className="icon play"

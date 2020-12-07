@@ -15,6 +15,7 @@
     "@types/styled-components": "^5.1.4",
     "classnames": "^2.2.6",
     "moment": "^2.29.1",
+    "moment-duration-format": "^2.3.2",
     "react": "^17.0.1",
     "react-dom": "^17.0.1",
     "react-icons": "^4.1.0",
@@ -51,6 +52,7 @@
     ]
   },
   "devDependencies": {
+    "@types/moment-duration-format": "^2.2.2",
     "@types/shortid": "0.0.29"
   }
 }

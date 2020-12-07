@@ -3,6 +3,7 @@ import styled from "styled-components";
 import Container from "../Container/Container";
 
 const Header = styled.header`
+  width: 100%;
   background-color: #00e676;
   height: 60px;
   display: flex;
@@ -15,9 +16,7 @@ const Header = styled.header`
 const Navbar = () => {
   return (
     <Header>
-      <Container>
-        <h1>Tracker</h1>
-      </Container>
+      <Container></Container>
     </Header>
   );
 };

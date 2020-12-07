@@ -11,11 +11,17 @@ const Layout = styled.div`
   height: 100%;
   margin: 0 auto;
 `;
+const Logo = styled.h1`
+  font-weight: bold;
+  text-align: center;
+`;
+
 const App = () => {
   return (
     <Layout>
       <Navbar />
       <Container>
+        <Logo>tracker</Logo>
         <AddTracker />
 
         <Trackers />
